@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JUC_tuition.iml" filepath="$PROJECT_DIR$/JUC_tuition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/juc_junior/juc_junior.iml" filepath="$PROJECT_DIR$/juc_junior/juc_junior.iml" />
+      <module fileurl="file://$PROJECT_DIR$/juc_senior/juc_senior.iml" filepath="$PROJECT_DIR$/juc_senior/juc_senior.iml" />
+    </modules>
+  </component>
+</project>
