@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.LongAccumulator;
 import java.util.concurrent.atomic.LongAdder;
 
 /**
- * 点赞数加加统计，不要求实时精确，因为你统计别人也在点，做不到实时精确 就是明示你LongAdder了。
+ * 点赞数加统计，不要求实时精确，因为你统计别人也在点，做不到实时精确 就是明示你LongAdder了。
  * 需求：50个线程，每个线程100w次，总点赞数出来
  */
 
@@ -57,13 +57,13 @@ public class 热点商品点赞计数器 {
          * 你当然就明白了为什么大数据高并发下要用LongAdder
          */
         //sync costTime：1830ms
-        CountDownLatch countDownLatch1 = new CountDownLatch(threadNum);
+//        CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         //AtomicLong costTime：628ms
-        CountDownLatch countDownLatch2 = new CountDownLatch(threadNum);
+//        CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         //LongAdder costTime：199ms
-        CountDownLatch countDownLatch3 = new CountDownLatch(threadNum);
+//        CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         //LongAccumulator costTime：161ms
-        CountDownLatch countDownLatch4 = new CountDownLatch(threadNum);
+        CountDownLatch countDownLatch = new CountDownLatch(threadNum);
         startTime = System.currentTimeMillis();
         //50个线程
         for (int i = 1; i <= threadNum; i++) {
@@ -72,10 +72,10 @@ public class 热点商品点赞计数器 {
                 for (int j = 1; j <= 100 * _1W; j++) {
                     clickNumber.clickByLongAccumulator();
                 }
-                countDownLatch4.countDown();
+                countDownLatch.countDown();
             }, String.valueOf(i)).start();
         }
-        countDownLatch4.await();
+        countDownLatch.await();
         endTime = System.currentTimeMillis();
         System.out.println("costTime：" + (endTime - startTime) + "ms");
 //        System.out.println(clickNumber.number);

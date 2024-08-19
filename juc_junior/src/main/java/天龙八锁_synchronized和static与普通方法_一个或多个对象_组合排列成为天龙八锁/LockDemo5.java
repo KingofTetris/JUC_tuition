@@ -21,6 +21,7 @@ public class LockDemo5 {
 //只要被被static修饰，锁的对象就是Class模板对象，这个锁全局唯一。
 //只和你的调用顺序有关。
 class Person5{
+    //注意static。锁的是class模板
     public static synchronized void game() {
         System.out.println("game");
     }

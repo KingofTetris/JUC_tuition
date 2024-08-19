@@ -27,7 +27,7 @@ public class TicketDemo {
 
 class MyThread implements Runnable{
     static final Object obj = new Object();
-    static int ticketNum = 200; //资源也是贡献的，你要用static修饰，不然就变成普通成员变量了。
+    static int ticketNum = 200; //资源也是共享的，你要用static修饰，不然就变成普通成员变量了。
     @Override
     public void run() {
         synchronized (obj){

@@ -11,7 +11,7 @@ import java.util.concurrent.locks.*;
  * @date 2023/7/6
  */
 
-//和基础篇一样，我们也是用缓存来模拟缓存，演示读写锁
+//和基础篇一样，我们也是用模拟缓存，演示读写锁
 class MyResource{
     Map<String,String> map = new HashMap<>();
     //普通的非公平可重入锁，相当于synchronized关键字
@@ -22,8 +22,6 @@ class MyResource{
     //2.锁降级 把写🔒降级为读🔒。
     //也就是一个线程获得了写锁的情况下，他还可以获得读锁，这就是写锁的降级。
     ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
-    //
-    StampedLock stampedLock = new StampedLock();
 
     public void write(String key,String value){
         //ReentrantLock 不管是读还是写每次只能有一个线程获得🔒。

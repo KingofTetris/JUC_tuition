@@ -39,7 +39,8 @@ import java.util.concurrent.*;
  *
  *  2.当需要处理的线程数量超过常驻线程数量的时候就把这些等待的线程扔到阻塞队列里面去。
  *
- *  3.如果阻塞队列也满了，线程池就会马力全开，创建最大线程数量。接待这个时候过来的线程，他们就是VIP(高峰期线程)，不需要等待，直接进入
+ *  3.如果阻塞队列也满了，线程池就会马力全开，创建最大线程数量。接待这个时候过来的线程，
+ *  他们就是VIP(高峰期线程)，不需要等待，直接进入
  *  新开的线程窗口。
  *
  *  3.1 如果能够处理线程需求了，那么经过线程存活时间以后，线程池就会关闭临时创建的线程
@@ -59,6 +60,7 @@ import java.util.concurrent.*;
  */
 public class ThreadPoolDemo {
     public static void main(String[] args) {
+
         /**
          * 创建线程池的四种方式
          *
@@ -86,10 +88,11 @@ public class ThreadPoolDemo {
                 Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
         try {
-            //10个人来办理业务
+            //30个人来办理业务
             //线程池execute调用线程的Runnable方法 这个时候线程才会创建
             for (int i = 0; i < 30; i++) {
-                threadPool3.execute(() -> {
+                //线程池execute方法自动创建线程
+                threadPool4.execute(() -> {
                     System.out.println(Thread.currentThread().getName() + "窗口正在处理业务");
                 });
             }
@@ -97,7 +100,7 @@ public class ThreadPoolDemo {
             System.out.println(e);
         } finally {
             //关闭线程，或者说把线程扔回线程池中
-            threadPool3.shutdown();
+            threadPool4.shutdown();
         }
     }
 

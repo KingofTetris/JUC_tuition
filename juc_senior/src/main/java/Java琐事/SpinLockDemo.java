@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * B随后进来后发现当前有线程持有锁，所以只能通过自旋等待，直到A释放锁后B随后抢到。
  */
 public class SpinLockDemo {
+
+    
     AtomicReference<Thread> atomicReference = new AtomicReference<>();
 
     //还是一样拿锁，解锁

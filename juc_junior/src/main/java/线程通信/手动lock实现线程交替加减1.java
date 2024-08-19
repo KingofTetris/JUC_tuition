@@ -19,17 +19,17 @@ class ShareLock{
         lock.lock();
         try{
             while (num != 0){
-                condition.await();//Lock的等待
+                condition.await();//如果num不等于0，那么AA就等待
             }
             //如果等于0了
             num++;
             System.out.println(Thread.currentThread().getName() + "::::" + num);
-            condition.signalAll();
+            condition.signalAll();//唤醒等待线程
         }catch (Exception e){
             System.out.println(e);
         }
         finally {
-            lock.unlock();
+            lock.unlock();//释放锁
         }
     }
 
@@ -37,7 +37,7 @@ class ShareLock{
         lock.lock();
         try{
             while (num != 1){
-                condition.await();//Lock的等待
+                condition.await();//如果num不等于0，那么BB就等待，尝试获取Lock
             }
             //如果等于1了
             num--;

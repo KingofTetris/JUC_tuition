@@ -11,9 +11,9 @@ public class LockDemo4 {
         Person4 person2 = new Person4();
 
         new Thread(()-> {
-            person2.game();
+            person2.study();
         },"AA").start();
-        new Thread(()-> person1.study(),"BB").start();
+        new Thread(()-> person1.game(),"BB").start();
 
     }
 }

@@ -8,6 +8,8 @@ import java.util.concurrent.*;
  */
 public class ThreadPoolCustomer {
     /**
+     * 下面7个核心参数非常重要
+     *
      *    public ThreadPoolExecutor(int corePoolSize,
      *                               int maximumPoolSize,
      *                               long keepAliveTime,
@@ -34,7 +36,7 @@ public class ThreadPoolCustomer {
             try {
                 //10个人来办理业务
                 //线程池execute调用线程的Runnable方法 这个时候线程才会创建
-                for (int i = 0; i < 30; i++) {
+                for (int i = 0; i < 6; i++) {
                     threadPool.execute(() -> {
                         System.out.println(Thread.currentThread().getName() + "窗口正在处理业务");
                     });

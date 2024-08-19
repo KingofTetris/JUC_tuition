@@ -6,6 +6,20 @@ import java.util.concurrent.*;
  * @author by KingOfTetris
  * @date 2023/6/29
  */
+
+
+/**
+ * Runnable和Callable
+ * 不同点
+ *  (1)Callable规定的方法是call()，Runnable规定的方法是run()。
+ *  其中Runnable可以提交给Thread来包装下，直接启动一个线程来执行，而Callable则一般都是提交给ExecuteService来执行。
+ *  (2)Callable的任务执行后可返回值，而Runnable的任务是不能返回值得
+ *  (3)call方法可以抛出异常，run方法不可以
+ *  (4)运行Callable任务可以拿到一个Future对象，c表示异步计算的结果。
+ *
+ *  注：Callalbe接口支持返回执行结果，需要调用FutureTask.get()得到，
+ *  此方法会阻塞主进程的继续往下执行，如果不调用不会阻塞。
+ */
 public class ThreadCreateDemo {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //方法1 继承Thread类 重写run方法
@@ -18,6 +32,7 @@ public class ThreadCreateDemo {
         MyThread3 thread3 = new MyThread3();
         FutureTask<String> futureTask = new FutureTask<>(thread3);
         new Thread(futureTask,"线程3").start();
+        //callable的返回值需要用futuretask对象.get()获得
         System.out.println(futureTask.get());
 
         //方法4 线程池

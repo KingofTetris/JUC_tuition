@@ -9,6 +9,12 @@ package 线程通信.定制化通信;
 //join是最简单的方法。
 public class join_定制化线程的处理顺序 {
     public static void main(String[] args) {
+
+        //匿名内部类的写法初始化Thread
+        //就不用再去写一个类继承Thread，重写run方法。
+       /* new Thread(()->{
+            System.out.println(Thread.currentThread().getName() + "执行");
+        },"t1").start();*/
         Thread t1 = new Thread(() -> {
             System.out.println(Thread.currentThread().getName() + "执行");
             try {
