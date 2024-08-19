@@ -17,8 +17,12 @@ public class deadLock {
      * 1.jps -l 查看可能是死锁的进程号
      * 2.jstack 进程号.就知道了，如果是死锁 会报Found 1 deadlock.
      */
+
+    //两个锁对象a,b
+    //A线程争抢锁B，再抢锁A。B线程先抢锁A，再抢锁B。造成死锁。
     static final Object a = new Object();
     static final Object b = new Object();
+
     public static void main(String[] args)  {
         new Thread(()->{
             synchronized (a){

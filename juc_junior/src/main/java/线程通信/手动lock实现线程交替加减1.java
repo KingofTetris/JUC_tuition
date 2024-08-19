@@ -9,11 +9,10 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author by KingOfTetris
  * @date 2023/6/28
  */
-
-
 class ShareLock{
     private int num = 0;
     private Lock lock = new ReentrantLock();
+    //lock需要配合condition
     private Condition condition = lock.newCondition();
     //不加synchronized关键字，用Lock手动加锁 放锁
     public void incr(){
@@ -53,7 +52,7 @@ class ShareLock{
         }
     }
 }
-public class ThreadDemo2 {
+public class 手动lock实现线程交替加减1 {
     public static void main(String[] args) {
         ShareLock shareLock = new ShareLock();
         new Thread(()->{

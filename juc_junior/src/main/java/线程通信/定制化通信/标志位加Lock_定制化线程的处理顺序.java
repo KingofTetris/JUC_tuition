@@ -14,7 +14,6 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 
 class ShareResource{
-
     //标志位
     private int flag = 1; // 1AA 2BB 3CC
     //创建Lock锁
@@ -22,6 +21,7 @@ class ShareResource{
     private Condition c1 = lock.newCondition();
     private Condition c2 = lock.newCondition();
     private Condition c3 = lock.newCondition();
+
     //打印5次，第几轮
     public void print5(int loop) throws InterruptedException {
         //上锁
@@ -81,7 +81,7 @@ class ShareResource{
         }
     }
 }
-public class ThreadDemo3 {
+public class 标志位加Lock_定制化线程的处理顺序 {
     public static void main(String[] args) {
         ShareResource shareResource = new ShareResource();
         new Thread(()->{

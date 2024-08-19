@@ -8,6 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * @date 2023/6/29
  */
 public class SyncLockDemo {
+
+    //一个简单的递归方法。
     public synchronized  void add(){
         add();
     }
@@ -16,7 +18,7 @@ public class SyncLockDemo {
         //栈溢出说明这方法虽然加上了synchronized关键字，但是这个锁是可重入的(递归)的
         //add里面再调用add也不会出现错误，才会导致栈溢出
 
-        //Lock演示，也是可重入锁
+        //Lock演示，一个ReentrantLock锁。
         Lock lock = new ReentrantLock();
         new Thread(()->{
             try{

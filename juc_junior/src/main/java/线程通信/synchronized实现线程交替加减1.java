@@ -9,10 +9,10 @@ package 线程通信;
 
 
 class Share {
-
     private int number = 0;
     //加上synchronized会自动释放锁
     public synchronized void increase() throws InterruptedException {
+        //if(number != 0) //虚假唤醒
         while (number != 0) { //注意这里要用while而不是if 这是为了避免虚假唤醒
             /**
              * 原因是
@@ -41,8 +41,9 @@ class Share {
     }
 }
 
-public class ThreadDemo1 {
+public class synchronized实现线程交替加减1 {
     public static void main(String[] args) {
+        //两个线程争抢同一份资源。
         Share share = new Share();
         //创建多线程
         new Thread(() -> {
@@ -64,27 +65,5 @@ public class ThreadDemo1 {
                 }
             }
         }, "BB").start();
-
-
-        new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
-                try {
-                    share.increase();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, "CC").start();
-
-
-        new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
-                try {
-                    share.decrease();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, "DD").start();
     }
 }

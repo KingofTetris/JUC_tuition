@@ -5,15 +5,13 @@ package 线程池;
  * @date 2023/6/29
  */
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 线程池的作用和连接池基本是一样的，你把连接换成线程两个字就完事了。
  * 就是尽可能少地创建线程，尽可能去复用线程。减少开销。
- *
- *
+ * 比如高并发的情况下，一下来10W个线程，你难道每个线程都去开一个新线程吗？这就非常耗时耗力。
+ * 所以需要线程池。
  *  public ThreadPoolExecutor(int corePoolSize,
  *                               int maximumPoolSize,
  *                               long keepAliveTime,
@@ -36,27 +34,34 @@ import java.util.concurrent.Executors;
  *  RejectedExecutionHandler handler
  *
  *  线程池的原理：
- *  1.线程池一开始是没用线程的，只有当年使用线程池的execute方法的时候，才会创建线程去调用Runnable接口的run方法
+ *  1.线程池一开始是没有线程的，只有当你使用线程池的execute方法的时候，才会创建线程去调用Runnable接口的run方法
  *  这个时候线程池里面就会创建常驻线程去处理，
+ *
  *  2.当需要处理的线程数量超过常驻线程数量的时候就把这些等待的线程扔到阻塞队列里面去。
- *  3.如果阻塞队列也满了，线程池就会马力全开，创建最大线程数量。接待这个时候过来的线程，他们就是VIP(高峰期线程).
+ *
+ *  3.如果阻塞队列也满了，线程池就会马力全开，创建最大线程数量。接待这个时候过来的线程，他们就是VIP(高峰期线程)，不需要等待，直接进入
+ *  新开的线程窗口。
+ *
  *  3.1 如果能够处理线程需求了，那么经过线程存活时间以后，线程池就会关闭临时创建的线程
+ *
  *  4.如果线程池的线程数量已经满了以后还是没法应付现在的需求，那么这个时候就会使用拒绝策略了。
  *  有个前提拒绝策略需要实现 RejectedExecutionHandler 接口，
  *  并实现 rejectedExecution(Runnable r, ThreadPoolExecutor executor) 方法。
  *  不过 Executors 框架已经为我们实现了 4 种拒绝策略
+ *
  *  4.1拒绝策略有4种
  *      ----AbortPolicy（默认）：丢弃任务并抛出 RejectedExecutionException 异常。
          * CallerRunsPolicy：由调用线程处理该任务。谁调用的谁处理，哪来的回哪去。
          * DiscardPolicy：丢弃任务，但是不抛出异常。可以配合这种模式进行自定义的处理方式。
-         * DiscardOldestPolicy：丢弃阻塞队列种等待最近，也就是最早的未处理任务，
+         * DiscardOldestPolicy：丢弃阻塞队列种等待最久的，也就是最早的未处理任务，
  *       然后重新尝试执行任务。真要骂人辣，等了最久你还不处理，RNM退钱
  *
  */
 public class ThreadPoolDemo {
     public static void main(String[] args) {
-
         /**
+         * 创建线程池的四种方式
+         *
          * 但实际开发中下面这三种都不要用
          * 因为newFixedThreadPool和newSingleThreadExecutor的阻塞队列
          * 允许的请求队列长度是Integer.MAX_VALUE 也是21亿。
@@ -73,6 +78,13 @@ public class ThreadPoolDemo {
         ExecutorService threadPool2 = Executors.newSingleThreadExecutor();//一个池子一个窗口
         //一池可扩容线程 根据线程数决定
         ExecutorService threadPool3 = Executors.newCachedThreadPool();
+
+        ExecutorService threadPool4 = new ThreadPoolExecutor(3,
+                5,
+                1L, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(3), //别忘了加上阻塞队列的容量
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy());
         try {
             //10个人来办理业务
             //线程池execute调用线程的Runnable方法 这个时候线程才会创建

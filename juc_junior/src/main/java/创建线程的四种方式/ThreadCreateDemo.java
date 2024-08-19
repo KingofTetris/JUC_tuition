@@ -7,8 +7,6 @@ import java.util.concurrent.*;
  * @date 2023/6/29
  */
 public class ThreadCreateDemo {
-
-
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //方法1 继承Thread类 重写run方法
         new Thread(new MyThread1(),"AA").start();
